@@ -1,22 +1,35 @@
 #!/usr/bin/env bash
-function guessinggame {
-numberoffiles=$(ls -l | wc -l)
+
+
+function small {
+echo "Your number is too small"
+}
+
+function big {
+echo "Your number is too big"
+}
+
+numberoffiles=$(ls -al | grep ^- | wc -l)
 echo "How many files are in the current directory?"
 read userinput
+
 while [[ $userinput -ne $numberoffiles ]]
 do
-if [[ $userinput -lt $numberoffiles ]]
-then 
-echo "The number is too small, enter a larger number:"
-read userinput
-elif [[ $userinput -gt $numberoffiles ]]
-then 
-echo "The number is too big, enter a smaller number:"
-read userinput
-else
-echo "Input is not valid"
-fi
+	if [[ ! $userinput =~ [0-9] ]]
+	then
+		echo "Your input is invalid. Input should an Integer"
+		read userinput
+	elif [[ $userinput -lt $numberoffiles ]]
+	then 
+		small
+		read userinput
+	elif [[ $userinput -gt $numberoffiles ]]
+	then 
+		big
+		read userinput
+	fi
 done
-echo "Congratulations, TRUUUUUUUUUUUUE Value"
-echo "The exact number of files is: " $numberoffiles 
-}
+
+echo "Congratulations, TRUE Value"
+echo "The exact number of files is: " $userinput
+
